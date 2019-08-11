@@ -41,7 +41,7 @@ class _ZHTabIndexPageState extends State<ZHTabIndexPage> {
     super.initState();
   }
 
-  final List tabBodies = [
+  final List<Widget> tabBodies = [
     ShoppingPage(),
     JxPage()
   ];
@@ -62,7 +62,10 @@ class _ZHTabIndexPageState extends State<ZHTabIndexPage> {
           });
         },
       ),
-      body: currentPage,
+      body: IndexedStack(
+        index: currentIndex,
+        children: tabBodies
+      )
     );
   }
 }
