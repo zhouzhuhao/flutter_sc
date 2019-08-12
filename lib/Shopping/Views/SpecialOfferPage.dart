@@ -1,7 +1,6 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import '../Model/ShopPageModel.dart';
 
 class SpecialOfferPage extends StatelessWidget {
@@ -33,7 +32,10 @@ class SpecialOfferPage extends StatelessWidget {
     Color btnBgColor = Colors.red;
     double cornerRadius = 2.0;
 
-    Widget tx = Text(title,maxLines: 1,overflow: TextOverflow.ellipsis,);
+    Widget tx = Text(
+      title,maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+    );
     // 金钱
     Widget moneyWidget = Column(
       children: <Widget>[
@@ -57,7 +59,9 @@ class SpecialOfferPage extends StatelessWidget {
     Widget second = Expanded(
       child: Row(
         children: <Widget>[
-          moneyWidget,
+          Expanded(
+            child: moneyWidget,
+          ),
           Expanded(
             child: Container(
               child: Text(btnTitle),
@@ -71,21 +75,33 @@ class SpecialOfferPage extends StatelessWidget {
     return Container(
       padding: EdgeInsets.fromLTRB(3, 5, 3, 5),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(child: tx,),
+          SizedBox(
+            child: tx,
+            width: 200,  // 暂时写死200
+          ),
+          // moneyWidget
         ],
       ),
     );
   }
 
   Widget _innerItem(BuildContext context,GoodsList data){
-    return Container(
-      padding: EdgeInsets.fromLTRB(3, 5, 3, 5),
-      child: Row(
-        children: <Widget>[
+    final size = MediaQuery.of(context).size;
+    return InkWell(
+      onTap: (){
+        print('mx clicked');
+      },
+      child: Container(
+        padding: EdgeInsets.fromLTRB(3, 5, 3, 5),
+        width: size.width - 90,
+        child: Row(
+         children: <Widget>[
           _leftImg(data.photo),
           _rightWidget(data)
         ],
+      ),
       ),
     );
   }
@@ -95,14 +111,15 @@ class SpecialOfferPage extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     print('dv width = ${size.width}');
     List<BoxShadow> bx = [
-      BoxShadow(color: Colors.grey,offset: Offset(3, 5)),
-    ];
+      BoxShadow(color: Color(0x99FFFF00), offset: Offset(5.0, 5.0),    blurRadius: 10.0, spreadRadius: 2.0),
+       BoxShadow(color: Color(0x9900FF00), offset: Offset(1.0, 1.0)), BoxShadow(color: Color(0xFF0000FF))
+     ];
     return Container(
-      // color: Colors.white,
       width: size.width - 90,
       alignment: Alignment.centerLeft,
       decoration: BoxDecoration(
-        color: Colors.grey[500],
+        color: Colors.white,
+        border: new Border.all(color: Color(0xFFFF0000), width: 0.5), // 边色与边宽度
         boxShadow: bx,
       ),
       child: _innerItem(context, data)
@@ -111,10 +128,9 @@ class SpecialOfferPage extends StatelessWidget {
 
   }
 
-
   Widget _innerListView(BuildContext context){
-    return Container(
-      height: 156,
+    return Expanded(
+      // height: 156,
       child: ListView.builder(
       padding: EdgeInsets.fromLTRB(15, 0, 0, 15),
       scrollDirection: Axis.horizontal,

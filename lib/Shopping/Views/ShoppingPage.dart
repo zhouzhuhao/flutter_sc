@@ -13,6 +13,9 @@ import '../Model/ShopPageModel.dart';
 import 'ShopSwiper.dart';
 // import 'SpecialOfferTitlePage.dart';
 
+//  活动图
+import 'ShopActivityPage.dart';
+
 class ShoppingPage extends StatefulWidget {
   ShoppingPage({Key key}) : super(key: key);
   
@@ -33,58 +36,38 @@ class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClie
   
   List<Widget> _buildShopPage(BuildContext context,decodeData){
 
-    // model
-    ShopPageModel model = ShopPageModel.fromJson(decodeData);
-    print('message = ${model.message} code = ${model.code}');
-
     List<Widget> wdList = <Widget>[];
+    try{
 
-    // 轮播首页
-    Data data0 = model.data.elementAt(0);
-    List<ImageUrl> imgUrlList =  data0.imageUrl;
-    if (imgUrlList.length > 0){
-       wdList.add(ShopSwiper(swiperDataList: imgUrlList,));
-    }
+      ShopPageModel model = ShopPageModel.fromJson(decodeData);
+      print('message = ${model.message} code = ${model.code}');
 
-    // 导航标签
-    Data navData = model.data.elementAt(1);
-
-    List<ImageUrl> navList = navData.imageUrl;
-    if (navList.length > 0) wdList.add(ShopNavigatorPage(naviList: navList,));
-
-    // 秒杀
-    Data mxData = model.data.elementAt(2);
-    wdList.add(SpecialOfferPage(resData: mxData,));
-
-    //   // 数据
-    // List data = decodeData['data'] as List;
-    // print('shopping swiper image data = $data');
-    // // 必要的时候要判断
-    // var firstData = data.length>0 ? data[0]:{};
-    // List imageUrl = firstData['ImageUrl'];
-    // print('image url = $imageUrl');
-    // // 轮播图
-    // List swiperList = imageUrl.map((val) => val['img_id']).toList();
-    // if (swiperList.length>0) wdList.add(ShopSwiper(swiperDataList: swiperList,));
-    // print('swiperList = $swiperList');
-    // // 导航标签图片 -- 后期有操作
-    // var secondData = data.length>2 ? data[1]:{};
-    // List navIconList = secondData['ImageUrl'];
-    // if (navIconList.length > 0) wdList.add(ShopNavigatorPage(naviList: navIconList,));
-
-    // // 添加 限时秒杀
-    // var thirdData = data.length>3 ? data[2] : {};
-    // var mxData = thirdData['spike']['spikeDetails'];
-    // var res = mxData['beginTime'];
-    // List mxGoods = ( thirdData['spike']['goodsList'] as List).cast();
-    // if (res != null && mxGoods.length > 0){
-    //   wdList.add(SpecialOfferTitlePage(spData: mxData,));
+      for (Data temp in model.data) {
+        
+        if (1 == temp.type){
+          // 轮播页面
+          List<ImageUrl> imgUrlList =  temp.imageUrl;
+          if (imgUrlList.length > 0){
+            wdList.add(ShopSwiper(swiperDataList: imgUrlList,));
+          }
+        }else if (0==temp.type){
+          wdList.add(ShopActivityPage(activityData: temp,));
+        }
+      }
       
-    // }
-  
-    // wdList.add(SpecialOfferTitlePage(spData: null,));
+      return wdList;
 
-    return wdList;
+    }catch (e){
+
+      print("shop page error = $e");
+      Widget error = Center(
+        child: Text('error $e'),
+      );
+      wdList.add(error);
+      return wdList;
+
+    }
+  
 
   }
 
@@ -95,10 +78,10 @@ class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClie
       appBar: AppBar(
         title: Text('商城首页'),
       ),
-      body: FutureBuilder(
+      body: SingleChildScrollView(
+        child: FutureBuilder(
         future: accquireShoppingPage(),
         builder: (context,snapshot){
-          
           if (snapshot.hasData){
             // 有数据 -- 先撸，后期转模型
             var decodeData = json.decode(snapshot.data.toString());
@@ -113,8 +96,8 @@ class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClie
           }
         },
       ),
-    );
-
+    ),
+  );
   }
 
 
