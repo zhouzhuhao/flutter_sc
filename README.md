@@ -7,6 +7,7 @@
 根目录下执行 flutter run
 ```
 ## 目前效果如下
+![image](https://github.com/zhouzhuhao/flutter_sc/blob/master/screenshots/homePage.gif)
 
 
 
