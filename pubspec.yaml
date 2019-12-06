@@ -34,6 +34,8 @@ dependencies:
   # dart_console: ^0.4.0
   # path: ^1.6.4
   rxdart: ^0.22.6
+  # 路由 - 后期集成
+  fluro: ^1.5.1
   
 
 dev_dependencies:
