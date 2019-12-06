@@ -2,17 +2,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';   // android 样式风格
 import 'package:flutter/cupertino.dart';  // ios 样式风格
-import 'package:flutter_gp/Shopping/Views/ShopNavigatorPage.dart';
-import 'package:flutter_gp/Shopping/Views/SpecialOfferPage.dart';
+// import 'package:flutter_gp/Config/GPLog.dart';
+// import 'package:flutter_gp/Shopping/Views/ShopNavigatorPage.dart';
+// import 'package:flutter_gp/Shopping/Views/SpecialOfferPage.dart';
 import '../../Config/GPServerMethod.dart';
-
 //  Model
 import '../Model/ShopPageModel.dart';
-
 //  轮播图
 import 'ShopSwiper.dart';
-// import 'SpecialOfferTitlePage.dart';
-
 //  活动图
 import 'ShopActivityPage.dart';
 
@@ -25,7 +22,6 @@ class ShoppingPage extends StatefulWidget {
 
 class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClientMixin{
 
-
   @override
   bool get wantKeepAlive => true;
   @override
@@ -33,17 +29,13 @@ class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClie
     super.initState();
   }
 
-  
   List<Widget> _buildShopPage(BuildContext context,decodeData){
 
     List<Widget> wdList = <Widget>[];
     try{
-
       ShopPageModel model = ShopPageModel.fromJson(decodeData);
-      print('message = ${model.message} code = ${model.code}');
-
+      print('message = ${model.message} \n code = ${model.code}');
       for (Data temp in model.data) {
-        
         if (1 == temp.type){
           // 轮播页面
           List<ImageUrl> imgUrlList =  temp.imageUrl;
@@ -51,10 +43,10 @@ class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClie
             wdList.add(ShopSwiper(swiperDataList: imgUrlList,));
           }
         }else if (0==temp.type){
+          // 类型
           wdList.add(ShopActivityPage(activityData: temp,));
         }
       }
-      
       return wdList;
 
     }catch (e){
@@ -65,9 +57,8 @@ class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClie
       );
       wdList.add(error);
       return wdList;
-
+      
     }
-  
 
   }
 
