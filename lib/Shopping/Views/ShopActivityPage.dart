@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../Model/ShopPageModel.dart';
 
+
+
 class ShopActivityPage extends StatelessWidget {
   // const ShopActivityPage({Key key}) : super(key: key);
   final Data activityData;

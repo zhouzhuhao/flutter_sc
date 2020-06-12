@@ -20,6 +20,7 @@ class ShoppingPage extends StatefulWidget {
 
 }
 
+// with 让页面保活
 class _ShoppingPageState extends State<ShoppingPage> with AutomaticKeepAliveClientMixin{
 
   @override
